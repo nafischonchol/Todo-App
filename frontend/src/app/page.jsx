@@ -7,7 +7,8 @@ export default function Home() {
   const [todos, setTodos] = useState([])
 
    useEffect(() => {
-    fetch('http://localhost:8000/api/todos') 
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+     fetch(`${baseUrl}/api/todos`)
       .then(res => res.json())
       .then(data => setTodos(data))
   }, [])
