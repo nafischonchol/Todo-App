@@ -1,6 +1,45 @@
 "use client";
 
 export default function TodoList({ todos, onToggle, onDelete }) {
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`${baseUrl}/api/todos/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        onDelete(id); // Update the UI by calling parent's onDelete
+      } else {
+        console.error("Failed to delete todo");
+      }
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
+  };
+
+  const handleToggle = async (id) => {
+    try {
+      const response = await fetch(`${baseUrl}/api/todos/${id}`, {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const status = await response.json();
+        console.log(status);
+        onToggle(id,status); 
+      } else {
+        console.error("Failed to delete todo");
+      }
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
+  };
+
   if (todos.length === 0)
     return <p className="text-gray-500 text-center">No todos yet!</p>;
 
@@ -15,12 +54,12 @@ export default function TodoList({ todos, onToggle, onDelete }) {
             className={`flex-1 ${
               todo.is_completed ? "line-through text-gray-400" : ""
             }`}
-            onClick={() => onToggle(todo.id)}
+            onClick={() => handleToggle(todo.id)}
           >
             {todo.title}
           </span>
           <button
-            onClick={() => onDelete(todo.id)}
+            onClick={() => handleDelete(todo.id)}
             className="text-red-500 font-bold ml-4"
           >
             ×

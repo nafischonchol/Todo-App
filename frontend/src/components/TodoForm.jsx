@@ -1,15 +1,32 @@
-'use client'
-import { useState } from 'react'
+"use client";
+import { useState } from "react";
 
 export default function TodoForm({ onAdd }) {
-  const [text, setText] = useState('')
+  const [text, setText] = useState("");
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!text.trim()) return
-    onAdd(text)
-    setText('')
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!text.trim()) return;
+
+    try {
+      const response = await fetch(`${baseUrl}/api/todos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: text,
+        }),
+      });
+
+      const newTodo = await response.json();
+      onAdd(newTodo);
+      setText("");
+    } catch (error) {
+      console.error("Error adding todo:", error);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
@@ -22,5 +39,5 @@ export default function TodoForm({ onAdd }) {
       />
       <button className="bg-blue-500 text-white px-4 rounded">Add</button>
     </form>
-  )
+  );
 }
