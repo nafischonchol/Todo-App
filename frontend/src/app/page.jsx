@@ -1,18 +1,25 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TodoForm from '@/components/TodoForm'
 import TodoList from '@/components/TodoList'
 
 export default function Home() {
   const [todos, setTodos] = useState([])
 
+   useEffect(() => {
+    fetch('http://localhost:8000/api/todos') 
+      .then(res => res.json())
+      .then(data => setTodos(data))
+  }, [])
+
+
   const addTodo = (text) => {
-    setTodos([...todos, { id: Date.now(), text, completed: false }])
+    setTodos([...todos, { id: Date.now(), title: text, is_completed: false }])
   }
 
   const toggleTodo = (id) => {
     setTodos(todos.map(todo => (
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      todo.id === id ? { ...todo, is_completed: !todo.is_completed } : todo
     )))
   }
 
