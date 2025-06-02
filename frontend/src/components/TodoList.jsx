@@ -33,10 +33,10 @@ export default function TodoList({ todos, onToggle, onDelete }) {
         console.log(status);
         onToggle(id,status); 
       } else {
-        console.error("Failed to delete todo");
+        console.error("Failed to update todo");
       }
     } catch (error) {
-      console.error("Error deleting todo:", error);
+      console.error("Error update todo:", error);
     }
   };
 

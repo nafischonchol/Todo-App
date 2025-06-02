@@ -25,8 +25,6 @@ class TodoService
         $todo->update([
             'is_completed'=> !$todo->is_completed
         ]);
-
-        // Log::debug($todo);
         return response()->json($todo->is_completed);
     }
 
