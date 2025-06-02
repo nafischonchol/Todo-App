@@ -1,32 +1,42 @@
-# Next.js Todo App - Learning Project
+# Fullstack Todo App - Learning Project
 
-This is a simple Todo application built as a **learning project** to get familiar with **Next.js** and React.
+This is a simple Todo application built as a **learning project** using **Laravel** for the backend API and **Next.js** for the frontend UI.
 
 ---
 
 ## Project Overview
 
-- Built using Next.js
-- Features:
+- **Frontend:** Next.js (React)
+  - Built with App Router and client components
   - Add new todos
-  - Display list of todos
-  - Client-side form handling with React hooks (`useState`)
-- Designed to understand:
-  - Next.js page routing
-  - React component structure and props
-  - Basic state management with hooks
+  - Display todo list from backend
+  - Handle form with React hooks (`useState`, `useEffect`)
+- **Backend:** Laravel API
+  - RESTful API endpoints for managing todos
+  - Stores todos in a database
+  - CORS-enabled for frontend access
 
-## Getting Started
+---
 
-### Prerequisites
+## Project Structure
+- backend: Laravel API project (runs on port 8000)
+- frontend: Next.js frontend project (runs on port 3000)
 
-- Node.js (version 16 or above recommended)
-- npm or yarn package manager
+## Backend Setup (Laravel)
 
-### Installation
+```bash
+cd backend
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
 
-1. Clone the repo:
+## Frontend Setup (Nextjs)
+cd frontend
+cp .env.local.example .env.local
+# inside .env.local
+# NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 
-   ```bash
-   git clone git@github.com:nafischonchol/Todo-App.git
-   cd Todo-App
+npm install
+npm run dev
+
